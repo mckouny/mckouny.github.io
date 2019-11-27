@@ -51,11 +51,14 @@
 
     <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="about">
       <div class="w-100">
-        <h1 class="mb-0">Profiling users by their 
-          <span class="text-primary">.bashhistory file</span>
+        <h1 class="mb-0">Profiling users with
+          <span class="text-primary">.bashhistory </span>
         </h1>
-        <div class="subheading mb-5">UCL BSc Dissertation</div>
-        <p class="lead mb-5">A sample page for my dissertation</p>
+        <div class="subheading mb-5">Does our bash behaviour exhibit distinctive patterns that can identify individuals?</div>
+        <p class="lead mb-5">Cyber attribution is hard. Analyzing the patterns in commands used by an attacker, we may be able to link different attacks to him, or at least to someone who had the same training.</p>
+
+
+        <p class="lead mb-5">For my dissertation, I collect (anonymized) <i>.bashhistory</i> files from many users and use some ML™ to link them together. For that, I need a lot of data and I would appreciate if you shared your history with me. <br> To see how I handle your data securely and anonymously, read on. </p>
       </div>
     </section>
 
@@ -64,34 +67,32 @@
 
         <div class="subheading mb-5">How it works</div>
         <p class="lead mb-5">Here I will explain how the algorithm works</p>
-	<form action="/action_page.php">
-	  First name:<br>
-	  <input type="text" name="firstname" value="Mickey">
- 	  <br>
-	  Last name:<br>
-	  <input type="text" name="lastname" value="Mouse">
-	  <br><br>
-	  <input type="submit" value="Submit">
-	</form> 
       </div>
     </section>
 
     <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="submit">
       <div class="w-100">
-	<a href="script.py">Download the anonymizing script</a>
 	<div class="subheading mb-5">Submit your files</div>
-	<form action=file:///C:\Users\Public\out.txt>
-	  <div class="forms-group">
-	   <label for="exampleFormControlFile1">Example file input</label>
-	   <input type="file" class="form-control-file" id="exampleFormControlFile1">
-	   <input type="submit" value="Submit files">
+	<a href="script.py">Download the anonymizing script</a>
+
+	<form class="md-form" action="#">
+	  <div class="file-field">
+	    <div class="btn btn-primary btn-sm float-left">
+	      <span>Choose files</span>
+	      <input type="file" multiple>
+	      <input type="submit" value="Submit">
+	    </div>
 	  </div>
-	  </form>
+	</form>
+   </section>
 
     <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="contact">
       <div class="w-100">
         <div class="subheading mb-5">Contact</div>
-        <p class="lead mb-5">About me and contact</p>
+        <p class="lead mb-5">My name is <b>Antonín Kanát</b> and this is a part of my undergraduate dissertation at UCL Department of Security and Crime Science.</p>
+
+        <p class="lead mb-5">If you have any questions or comments, please do not hesitate to contact me or my supervisor. Thanks again for your help!</p>
+<script>(function whatever(){var s='@',n='antonin.kanat.17',k='ucl.ac.uk',e=n+s+k,l='<a href=mailto:{{spam@agrofert.cz}}>{{spam@agrofert.cz}}</a>'.replace(/{{.+?(}})/g,e);document.write(l)})()</script>
       </div>
     </section>
 
