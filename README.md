@@ -1,5 +1,5 @@
 # [Data Collection Website Prototypel]
-This is a prototype to discuss some design and implementation approaches. For the final product, I'll obviously play around with some buttons, popups, forms etc. Even the text is not entirely final.
+This is a prototype to discuss some design and implementation approaches. For the final thing, I'll obviously play around with some buttons, popups, forms, fix the links, css and stuff. Even the text is not entirely final.
 
 ## Files and Questions
 
@@ -15,6 +15,7 @@ index.html
 js/resume.js
 * What should I be sending over to the server? Currently end up with a string(s), which I'll add to an array
 * Is the random script for displaying email good enough for showing your emaiL?
+* Here again, could you please recommoend some library to do the hashing?
 
 
 ## About the Template
