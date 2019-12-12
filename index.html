@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html> <html lang="en">
 
 <head>
 
@@ -19,7 +18,7 @@
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="css/resume.min.css" rel="stylesheet">
+  <link href="css/resume.css" rel="stylesheet">
 
 </head>
 
@@ -32,7 +31,8 @@
         <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="img/img.png" alt="">
       </span>
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" 
+aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -45,6 +45,7 @@
         </li>
        </ul>
     </div>
+    <p class="navbar text-light align-text-bottom">UCL Security and Crime Science </br> Dissertation Project </br> Antonin Kanat </br> <script>displayEmail()</script></p>
   </nav>
 
   <div class="container-fluid p-0">
@@ -52,13 +53,14 @@
     <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="about">
       <div class="w-100">
         <h1 class="mb-0">Profiling users with
-          <span class="text-primary">.bashhistory </span>
+          <span class="text-primary">.bash_history </span>
         </h1>
-        <div class="subheading mb-5">Does our bash behaviour exhibit distinctive patterns that can identify individuals?</div>
-        <p class="lead mb-5">Cyber attribution is hard. Analyzing the patterns in commands used by an attacker, we may be able to link different attacks to him, or at least to someone who had the same training.</p>
+        <div class="subheading mb-5">Can we be identified using our bash behaviour?</div>
+        <p class="lead mb-0">Cyber attribution is hard. By analyzing the patterns in attacker's commands, we may be able to 
+link different attacks to him, or at least to someone who had the same training.</p>
 
-
-        <p class="lead mb-5">For my dissertation, I collect (anonymized) <i>.bashhistory</i> files from many users and use some ML™ to link them together. For that, I need a lot of data and I would appreciate if you shared your history with me. <br> To see how I handle your data securely and anonymously, read on. </p>
+        <p class="lead mb-3">For my dissertation, I collect (anonymized) <code>.bash_history</code> files from many users and use some ML™ to link them together. For that, I need a lot of data and I would appreciate if you shared your history with me.</p> 
+	<p class="lead mb-5">To see how I handle your data securely and anonymously, read on. </p>
       </div>
     </section>
 
@@ -66,33 +68,43 @@
       <div class="w-100">
 
         <div class="subheading mb-5">How it works</div>
-        <p class="lead mb-5">Here I will explain how the algorithm works</p>
+        <p class="lead mb-5">Bash logs can contain sensitive information such as filenames or passwords. To protect your privacy, all files are processed using an anonymizing script. In short, it goes through the file word by word and only keeps the string if it is:</p>
+	<ul> 
+	  <li>on a <a href="#">list</a> of ~250 common, mostly built-in commands <code>ls sudo ifconfig vim</code></li>
+	  <li>recognized as a short option/flag – a hyphen followed by 1 to 4 alphanumeric characters <code>-p -alt -rf</code></li>
+	  <li>regexxed as a long option/flag – double hyphen followed by alphanumeric strings, which are divided by another hyphen <code>–follow-symlinks –help --version</code></li>
+	</ul>
+        <p class="lead mb-5">Everything else gets hashed. This way I can still see some patterns but know very little about you.</p>
+        <p class="lead mb-5">In the next step, you can download the 30-line python script and run it locally before uploading the anonymized file. If you a) trust me b) can’t be bothered c) forget to hash your file, don’t worry – all files are processed again using the same script (this time in JS) before they are sent over.</p>
       </div>
     </section>
 
     <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="submit">
       <div class="w-100">
 	<div class="subheading mb-5">Submit your files</div>
-	<a href="script.py">Download the anonymizing script</a>
+	<p class='lead mb-5'>On most UNIX systems, the .bash_history file is in the home directory (~/.bash_history). As the default size is mere 500 lines, please try to upload multiple files (different machines, timeframes, as long as it’s all you). If you are by any chance authorized to upload logs of other users (!), upload each of them separately.</p>
+	<p class="lead mb-5">This website is hosted on <a href="#">github pages</a>, so you can inspect the source code. Once you upload the file, it will be anonymized in your browser. You will see the result and then decide whether you want to submit it or not.</p>
+	<p class="lead mb-5">Alternatively, I invite you to <a href="script.py">download the anonymizing script</a> in Python and upload already anonymized files.</p>
+	</br>
 
-	<form class="md-form" action="#">
-	  <div class="file-field">
-	    <div class="btn btn-primary btn-sm float-left">
-	      <span>Choose files</span>
-	      <input type="file" multiple>
-	      <input type="submit" value="Submit">
-	    </div>
-	  </div>
-	</form>
-   </section>
+	<input type="file" id="files" name="files[]" multiple />
+	<button type="button" id ="hashbt">Anonymize</button>
+	<div>
+          <input type="checkbox" id="legalCheck" name="consent" value="consent">
+          <label for="legalCheck">Consent blah blah</label>
+	</div>
+	<button type="submit" id ="subbt" disabled>Submit</button>
+	<output id="list"></output>
+    </section>
 
     <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="contact">
       <div class="w-100">
         <div class="subheading mb-5">Contact</div>
-        <p class="lead mb-5">My name is <b>Antonín Kanát</b> and this is a part of my undergraduate dissertation at UCL Department of Security and Crime Science.</p>
+        <p class="lead mb-5">My name is <b>Antonín Kanát</b> and this is a part of my undergraduate dissertation at UCL Department 
+of Security and Crime Science.</p>
 
-        <p class="lead mb-5">If you have any questions or comments, please do not hesitate to contact me or my supervisor. Thanks again for your help!</p>
-<script>(function whatever(){var s='@',n='antonin.kanat.17',k='ucl.ac.uk',e=n+s+k,l='<a href=mailto:{{spam@agrofert.cz}}>{{spam@agrofert.cz}}</a>'.replace(/{{.+?(}})/g,e);document.write(l)})()</script>
+        <p class="lead mb-5">If you have any questions or comments, please do not hesitate to contact me or my supervisor. Thanks 
+again for your help!</p> 
       </div>
     </section>
 
@@ -104,7 +116,7 @@
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
   <!-- Custom scripts for this template -->
-  <script src="js/resume.min.js"></script>
+  <script src="js/resumeplay.js"></script>
 
 </body>
 
