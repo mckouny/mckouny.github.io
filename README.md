@@ -1,6 +1,21 @@
 # [Data Collection Website Prototypel]
+This is a prototype to discuss some design and implementation approaches. For the final product, I'll obviously play around with some buttons, popups, forms etc. Even the text is not entirely final.
 
-How to navigate
+## Files and Questions
+
+hashing script.py + commands curated.json
+* Are you generally happy with the algorithm? Feels pretty robust to me.
+* How to include the whitelist of commands? Currently json, would it be better to include in the the main file?
+* If bcrypt is not the best option, what other approach should I use? Ideally something that can be easily used in JS as well.
+* I have yet to implement uppercase support (straightforward)
+
+index.html
+* it may all be a bit messy for now, still setting up my environment so no linter yet or anything
+
+js/resume.js
+* What should I be sending over to the server? Currently end up with a string(s), which I'll add to an array
+* Is the random script for displaying email good enough for showing your emaiL?
+
 
 ## About the Template
 

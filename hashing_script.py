@@ -1,7 +1,7 @@
 import bcrypt
 import json
 import re
-salt = bcrypt.gensalt(4)
+salt = bcrypt.gensalt(4) #low on purpose, no passwords processed
 #known_commands = []
 
 with open('commands_curated.json', 'r') as fp:
