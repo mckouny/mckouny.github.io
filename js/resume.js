@@ -25,24 +25,78 @@
     target: '#sideNav'
   });
   
-  // Handle fileuploads
+  // Import command list
+  var commands_list = new Array
+    $.get('commands_curated.json', function (commands) {
+      commands_list = commands;
+      })
+  // Handle hashing 
+  var clear_list = []
+  var hashed_list = []
   $('#hashbt').click(function () {
     var files = $('#files').prop('files');
-
-    for (var i = 0, f; f = files[i]; i++) {
+    var files_num = files.length;
+    for (let i = 0, f; f = files[i]; i++) {
       var reader = new FileReader();
-      reader.readAsText(f);
       reader.onload = function(e) {
-        var res = reader.result;
-        alert ('Hashed file preview:\ni'+ hashHistory(res).substr(1,1000))
+        var res = e.target.result;
+        clear_list.push(res);
+        var hashed = hashHistory(res)
+        setTimeout(hashed_list.push(hashed),2000);
       }
-      $('#subbt').prop('disabled', false);
-    }
-  });
 
+      reader.readAsText(f);
+    }
+
+    $('#subbt').prop('disabled', false);
+    $('#hashbt').prop('disabled', true);
+    createHeader(3);
+    createCards();
+  });
+  
+
+  // Create cards
+  function createCards() {
+    $('#tryhere').after("<div class='row overflow-auto vh-100'>\
+ <div class='col-sm-6'>\
+    <div class='card'>\
+      <div class='card-body'>\
+        <h5 class='card-title'>Original File</h5>\
+        <p class='card-text overflow-auto' id='original-text'>With supporting text below as a natural lead-in to additional content.</p>\
+      </div>\
+    </div>\
+  </div>\
+  <div class='col-sm-6'>\
+    <div class='card'>\
+      <div class='card-body'>\
+        <h5 class='card-title'>Anonymized File</h5>\
+        <p class='card-text overflow-auto' id='anon-text'>With supporting text below as a natural lead-in to additional content.</p>\
+      </div>\
+    </div>\
+  </div>\
+</div>");
+
+setTimeout(console.log("woof", clear_list[0]), 2000)
+   $('#original-text').text(clear_list[0]);
+   $('#anon-text').text(hashed_list[0]);
+    };
+
+  // Create header tabs
+  function createHeader(number) {
+      var part1 = "<div class='card-header'> <ul class='nav nav-tabs card-header-tabs' id='mynav'>"
+      var part2 = "";
+      for (let i = 0; i < number; i++){
+      var str = ""
+      var str= str.concat("<li class='nav-item'> <a class='nav-link'>File ", i+1, " </a> </li>")
+        part2 += str
+      }
+      var part3 = "</ul>"
+      var joint = part1 + part2 + part3
+     $('#tryhere').html(joint)
+      };
+      
   // Process and hash file
   function hashHistory(res){
-    var commands = ["ping", "sudo", "apt-get"]; //The list of commands will be imported later
       var history_string = res.split("\r\n");
       var hashed_string = "";
 
@@ -63,7 +117,7 @@
               hashed_string += word;
               break;		
             default:
-              if (commands.indexOf(word) != -1){
+              if (commands_list.indexOf(word) != -1){
                 hashed_string += word;
                   } else {
                   hashed_string += 'hashed'; //actual hashing yet to be implemented	
@@ -78,8 +132,5 @@
     }
     return hashed_string;
   }
-
-  // Trying to protect email from crawlers
-  function displayEmail(){var s='@',n='antonin.kanat.17',k='ucl.ac.uk',e=n+s+k,l='<a href=mailto:{{spam@agrofert.cz}}>{{spam@agrofert.cz}}</a>'.replace(/{{.+?(}})/g,e);document.write(l)}
 	
 })(jQuery); // End of use strict

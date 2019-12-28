@@ -102,7 +102,7 @@ function js() {
       './js/*.js',
       '!./js/*.min.js'
     ])
-    .pipe(uglify())
+    //.pipe(uglify())
     .pipe(header(banner, {
       pkg: pkg
     }))

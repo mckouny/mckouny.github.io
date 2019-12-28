@@ -45,7 +45,7 @@ aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle 
         </li>
        </ul>
     </div>
-    <p class="navbar text-light align-text-bottom">UCL Security and Crime Science </br> Dissertation Project </br> Antonin Kanat </br> <script>displayEmail()</script></p>
+    <p class="navbar text-light align-text-bottom">UCL Security and Crime Science </br> Dissertation Project </br> Antonin Kanat </br> </p>
   </nav>
 
   <div class="container-fluid p-0">
@@ -84,17 +84,26 @@ link different attacks to him, or at least to someone who had the same training.
 	<div class="subheading mb-5">Submit your files</div>
 	<p class='lead mb-5'>On most UNIX systems, the .bash_history file is in the home directory (~/.bash_history). As the default size is mere 500 lines, please try to upload multiple files (different machines, timeframes, as long as it’s all you). If you are by any chance authorized to upload logs of other users (!), upload each of them separately.</p>
 	<p class="lead mb-5">This website is hosted on <a href="#">github pages</a>, so you can inspect the source code. Once you upload the file, it will be anonymized in your browser. You will see the result and then decide whether you want to submit it or not.</p>
-	<p class="lead mb-5">Alternatively, I invite you to <a href="script.py">download the anonymizing script</a> in Python and upload already anonymized files.</p>
+	<p class="lead mb-5">Alternatively, I invite you to <a href="hashing_script.py">download the anonymizing script</a> in Python and upload already anonymized files.</p>
 	</br>
+      
+          
+	    <div class="subheading">1. Choose the files</div>
+          <input type="file" id="files" name="files[]" multiple />
+          <p>These will not be uploaded yet.</p>
+          
+	    <div class="subheading">2. Anonymize and inspect</div>
+            <button class="btn-primary btn" type="button" id ="hashbt">Anonymize</button>
+<div id = "tryhere"></div>            
 
-	<input type="file" id="files" name="files[]" multiple />
-	<button type="button" id ="hashbt">Anonymize</button>
-	<div>
-          <input type="checkbox" id="legalCheck" name="consent" value="consent">
-          <label for="legalCheck">Consent blah blah</label>
-	</div>
-	<button type="submit" id ="subbt" disabled>Submit</button>
-	<output id="list"></output>
+	  <div class="subheading">3. Review, give consent and submit</div>
+            <div>
+              <input type="checkbox" id="legalCheck" name="consent" value="consent">
+              <label for="legalCheck">Consent blah blah</label>
+            </div>
+            <button type="submit" id ="subbt" disabled>Submit</button>
+            <output id="list"></output>
+      </div>
     </section>
 
     <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="contact">
@@ -116,7 +125,7 @@ again for your help!</p>
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
   <!-- Custom scripts for this template -->
-  <script src="js/resume.min.js"></script>
+  <script src="js/resume.js"></script>
 
 </body>
 
