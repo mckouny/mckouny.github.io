@@ -95,7 +95,8 @@ function css() {
     .pipe(browsersync.stream());
 }
 
-// JS task
+//JS task
+
 function js() {
   return gulp
     .src([
@@ -103,13 +104,7 @@ function js() {
       '!./js/*.min.js'
     ])
     //.pipe(uglify())
-    .pipe(header(banner, {
-      pkg: pkg
-    }))
-    .pipe(rename({
-      suffix: '.min'
-    }))
-    .pipe(gulp.dest('./js'))
+//    .pipe(gulp.dest('./js'))
     .pipe(browsersync.stream());
 }
 

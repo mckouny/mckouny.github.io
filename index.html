@@ -1,132 +1,233 @@
-<!DOCTYPE html> <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
 
-<head>
+    <title>Dissertation page</title>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 
-  <title>Dissertation page</title>
+    <!-- Custom fonts for this template -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i"
+      rel="stylesheet"
+    />
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
 
-  <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/resume.css" rel="stylesheet" />
+  </head>
 
-  <!-- Custom fonts for this template -->
-  <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet">
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-
-  <!-- Custom styles for this template -->
-  <link href="css/resume.css" rel="stylesheet">
-
-</head>
-
-<body id="page-top">
-
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
-    <a class="navbar-brand js-scroll-trigger" href="#page-top">
-      <span class="d-block d-lg-none">Antonin Kanat</span>
-      <span class="d-none d-lg-block">
-        <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="img/img.png" alt="">
-      </span>
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" 
-aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" href="#about">About the project</a>
-          <a class="nav-link js-scroll-trigger" href="#howitworks">How it works</a>
-          <a class="nav-link js-scroll-trigger" href="#submit">Submit</a>
-          <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
-        </li>
-       </ul>
-    </div>
-    <p class="navbar text-light align-text-bottom">UCL Security and Crime Science </br> Dissertation Project </br> Antonin Kanat </br> </p>
-  </nav>
-
-  <div class="container-fluid p-0">
-
-    <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="about">
-      <div class="w-100">
-        <h1 class="mb-0">Profiling users with
-          <span class="text-primary">.bash_history </span>
-        </h1>
-        <div class="subheading mb-5">Can we be identified using our bash behaviour?</div>
-        <p class="lead mb-0">Cyber attribution is hard. By analyzing the patterns in attacker's commands, we may be able to 
-link different attacks to him, or at least to someone who had the same training.</p>
-
-        <p class="lead mb-3">For my dissertation, I collect (anonymized) <code>.bash_history</code> files from many users and use some ML™ to link them together. For that, I need a lot of data and I would appreciate if you shared your history with me.</p> 
-	<p class="lead mb-5">To see how I handle your data securely and anonymously, read on. </p>
+  <body id="page-top">
+    <nav
+      class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top"
+      id="sideNav"
+    >
+      <a class="navbar-brand js-scroll-trigger" href="#page-top">
+        <span class="d-block d-lg-none">Antonin Kanat</span>
+        <span class="d-none d-lg-block">
+          <img
+            class="img-fluid img-profile rounded-circle mx-auto mb-2"
+            src="img/img.png"
+            alt=""
+          />
+        </span>
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#about"
+              >About the project</a
+            >
+            <a class="nav-link js-scroll-trigger" href="#howitworks"
+              >How it works</a
+            >
+            <a class="nav-link js-scroll-trigger" href="#submit">Submit</a>
+            <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+          </li>
+        </ul>
       </div>
-    </section>
+      <p class="navbar text-light align-text-bottom">
+        UCL Security and Crime Science Dissertation Project Antonin Kanat
+      </p>
+    </nav>
 
-    <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="howitworks">
-      <div class="w-100">
+    <div class="container-fluid p-0">
+      <section
+        class="resume-section p-3 p-lg-5 d-flex align-items-center"
+        id="about"
+      >
+        <div class="w-100">
+          <h1 class="mb-0">
+            Profiling users with
+            <span class="text-primary">.bash_history </span>
+          </h1>
+          <div class="subheading mb-5">
+            Can we be identified using our bash behaviour?
+          </div>
+          <p class="lead mb-0">
+            Cyber attribution is hard. By analyzing the patterns in attacker's
+            commands, we may be able to link different attacks to him, or at
+            least to someone who had the same training.
+          </p>
 
-        <div class="subheading mb-5">How it works</div>
-        <p class="lead mb-5">Bash logs can contain sensitive information such as filenames or passwords. To protect your privacy, all files are processed using an anonymizing script. In short, it goes through the file word by word and only keeps the string if it is:</p>
-	<ul> 
-	  <li>on a <a href="#">list</a> of ~250 common, mostly built-in commands <code>ls sudo ifconfig vim</code></li>
-	  <li>recognized as a short option/flag – a hyphen followed by 1 to 4 alphanumeric characters <code>-p -alt -rf</code></li>
-	  <li>regexxed as a long option/flag – double hyphen followed by alphanumeric strings, which are divided by another hyphen <code>–follow-symlinks –help --version</code></li>
-	</ul>
-        <p class="lead mb-5">Everything else gets hashed. This way I can still see some patterns but know very little about you.</p>
-        <p class="lead mb-5">In the next step, you can download the 30-line python script and run it locally before uploading the anonymized file. If you a) trust me b) can’t be bothered c) forget to hash your file, don’t worry – all files are processed again using the same script (this time in JS) before they are sent over.</p>
-      </div>
-    </section>
+          <p class="lead mb-3">
+            For my dissertation, I collect (anonymized)
+            <code>.bash_history</code> files from many users and use some ML™ to
+            link them together. For that, I need a lot of data and I would
+            appreciate if you shared your history with me.
+          </p>
+          <p class="lead mb-5">
+            To see how I handle your data securely and anonymously, read on.
+          </p>
+        </div>
+      </section>
 
-    <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="submit">
-      <div class="w-100">
-	<div class="subheading mb-5">Submit your files</div>
-	<p class='lead mb-5'>On most UNIX systems, the .bash_history file is in the home directory (~/.bash_history). As the default size is mere 500 lines, please try to upload multiple files (different machines, timeframes, as long as it’s all you). If you are by any chance authorized to upload logs of other users (!), upload each of them separately.</p>
-	<p class="lead mb-5">This website is hosted on <a href="#">github pages</a>, so you can inspect the source code. Once you upload the file, it will be anonymized in your browser. You will see the result and then decide whether you want to submit it or not.</p>
-	<p class="lead mb-5">Alternatively, I invite you to <a href="hashing_script.py">download the anonymizing script</a> in Python and upload already anonymized files.</p>
-	</br>
-      
-          
-	    <div class="subheading">1. Choose the files</div>
+      <section
+        class="resume-section p-3 p-lg-5 d-flex align-items-center"
+        id="howitworks"
+      >
+        <div class="w-100">
+          <div class="subheading mb-5">How it works</div>
+          <p class="lead mb-5">
+            Bash logs can contain sensitive information such as filenames or
+            passwords. To protect your privacy, all files are processed using an
+            anonymizing script. In short, it goes through the file word by word
+            and only keeps the string if it is:
+          </p>
+          <ul>
+            <li>
+              on a <a href="#">list</a> of ~250 common, mostly built-in commands
+              <code>ls sudo ifconfig vim</code>
+            </li>
+            <li>
+              recognized as a short option/flag – a hyphen followed by 1 to 4
+              alphanumeric characters <code>-p -alt -rf</code>
+            </li>
+            <li>
+              regexxed as a long option/flag – double hyphen followed by
+              alphanumeric strings, which are divided by another hyphen
+              <code>–follow-symlinks –help --version</code>
+            </li>
+          </ul>
+          <p class="lead mb-5">
+            Everything else gets hashed. This way I can still see some patterns
+            but know very little about you.
+          </p>
+          <p class="lead mb-5">
+            In the next step, you can download the 30-line python script and run
+            it locally before uploading the anonymized file. If you a) trust me
+            b) can’t be bothered c) forget to hash your file, don’t worry – all
+            files are processed again using the same script (this time in JS)
+            before they are sent over.
+          </p>
+        </div>
+      </section>
+
+      <section
+        class="resume-section p-3 p-lg-5 d-flex align-items-center"
+        id="submit"
+      >
+        <div class="w-100">
+          <div class="subheading mb-5">Submit your files</div>
+          <p class="lead mb-5">
+            On most UNIX systems, the .bash_history file is in the home
+            directory (~/.bash_history). As the default size is mere 500 lines,
+            please try to upload multiple files (different machines, timeframes,
+            as long as it’s all you). If you are by any chance authorized to
+            upload logs of other users (!), upload each of them separately.
+          </p>
+          <p class="lead mb-5">
+            This website is hosted on <a href="#">github pages</a>, so you can
+            inspect the source code. Once you upload the file, it will be
+            anonymized in your browser. You will see the result and then decide
+            whether you want to submit it or not.
+          </p>
+          <p class="lead mb-5">
+            Alternatively, I invite you to
+            <a href="hashing_script.py">download the anonymizing script</a> in
+            Python and upload already anonymized files.
+          </p>
+
+          <div class="subheading">1. Choose the files</div>
           <input type="file" id="files" name="files[]" multiple />
           <p>These will not be uploaded yet.</p>
+
+          <div class="subheading">2. Anonymize and inspect</div>
           
-	    <div class="subheading">2. Anonymize and inspect</div>
-            <button class="btn-primary btn" type="button" id ="hashbt">Anonymize</button>
-<div id = "tryhere"></div>            
+          <button class="btn-primary btn" type="button" id="tstbt">
+            Tstbtn
+          </button>
+          <button class="btn-primary btn" type="button" id="hashbt">
+            Anonymize
+          </button>
+          <div id="tryhere"></div>
 
-	  <div class="subheading">3. Review, give consent and submit</div>
-            <div>
-              <input type="checkbox" id="legalCheck" name="consent" value="consent">
-              <label for="legalCheck">Consent blah blah</label>
-            </div>
-            <button type="submit" id ="subbt" disabled>Submit</button>
-            <output id="list"></output>
-      </div>
-    </section>
+          <div class="subheading">3. Review, give consent and submit</div>
+          <div>
+            <input
+              type="checkbox"
+              id="legalCheck"
+              name="consent"
+              value="consent"
+            />
+            <label for="legalCheck">Consent blah blah</label>
+          </div>
+          <button type="submit" id="subbt" disabled>Submit</button>
+          <output id="list"></output>
+        </div>
+      </section>
 
-    <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="contact">
-      <div class="w-100">
-        <div class="subheading mb-5">Contact</div>
-        <p class="lead mb-5">My name is <b>Antonín Kanát</b> and this is a part of my undergraduate dissertation at UCL Department 
-of Security and Crime Science.</p>
+      <section
+        class="resume-section p-3 p-lg-5 d-flex align-items-center"
+        id="contact"
+      >
+        <div class="w-100">
+          <div class="subheading mb-5">Contact</div>
+          <p class="lead mb-5">
+            My name is <b>Antonín Kanát</b> and this is a part of my
+            undergraduate dissertation at UCL Department of Security and Crime
+            Science.
+          </p>
 
-        <p class="lead mb-5">If you have any questions or comments, please do not hesitate to contact me or my supervisor. Thanks 
-again for your help!</p> 
-      </div>
-    </section>
+          <p class="lead mb-5">
+            If you have any questions or comments, please do not hesitate to
+            contact me or my supervisor. Thanks again for your help!
+          </p>
+        </div>
+      </section>
 
-  <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <!-- Bootstrap core JavaScript -->
+      <script src="vendor/jquery/jquery.min.js"></script>
+      <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Plugin JavaScript -->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+      <!-- Plugin JavaScript -->
+      <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-  <!-- Custom scripts for this template -->
-  <script src="js/resume.js"></script>
-
-</body>
-
+      <!-- Custom scripts for this template -->
+      <script src="js/resume.js"></script>
+    </div>
+  </body>
 </html>
