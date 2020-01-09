@@ -57,35 +57,41 @@
         var reader = new FileReader();
         reader.onload = function(e) {
           var res = e.target.result;
+          console.log(res)
           clear_list.push(res);
           var hashed = hashHistory(res);
-          setTimeout(hashed_list.push(hashed), 2000);
+          hashed_list.push(hashed);
         };
 
         reader.readAsText(f);
       }
     }
-    prepareFiles();
-    $('#subbt').prop('disabled', false);
-    $('#hashbt').prop('disabled', true);
-    createHeader(files_num);
-    createCards();
-    console.log('fin');
+    setTimeout(buildEverything, 2000);
+    function buildEverything() {
+      $('#subbt').prop('disabled', false);
+      createHeader(files_num);
+      createCards(0);
+createCards(1);
+   }
+
+   $('#hashbt').prop('disabled', true);
    });
+
   
   $('#tstbt').click(function() {
     console.log(hashed_list);
   });
 
   // Create cards
-  function createCards() {
+  function createCards(index) {
     $('#tryhere').after(
-      "<div class='row overflow-auto vh-100'>\
+      "<div class='tab-pane' id='tabpane" + index + "' role='tabpanel' aria-labeledby='tab" + index + "'>\
+      <div class='row overflow-auto vh-100'>\
        <div class='col-sm-6'>\
           <div class='card'>\
             <div class='card-body'>\
               <h5 class='card-title'>Original File</h5>\
-              <p class='card-text overflow-auto' id='original-text'>With supporting text below as a natural lead-in to additional content.</p>\
+              <p class='card-text overflow-auto' id='original-text'>" + index + "</p>\
             </div>\
           </div>\
         </div>\
@@ -93,27 +99,47 @@
           <div class='card'>\
             <div class='card-body'>\
               <h5 class='card-title'>Anonymized File</h5>\
-              <p class='card-text overflow-auto' id='anon-text'>With supporting text below as a natural lead-in to additional content.</p>\
+              <p class='card-text overflow-auto' id='anon-text'>" + index + "</p>\
             </div>\
           </div>\
         </div>\
+      </div>\
       </div>",
         );
 
-    setTimeout(console.log(clear_list[0]), 2000);
-    $('#original-text').text(clear_list[0]);
-    $('#anon-text').text(hashed_list[0]);
+    //tabClick(0);
+  
+    
   }
+$(document).ready ( function () {
+    $(document).on ("click", "#mynav a", function (e) {
+
+      e.preventDefault()
+      alert('woof')
+      $(this).tab('show')
+    });
+});
+  // Ugly handling of tabs
+  function tabClick(fileIndex) {
+    $('#original-text').text(clear_list[fileIndex]);
+    $('#anon-text').text(hashed_list[fileIndex]);
+    $('.tab').removeClass("active");
+    $('#tab' + fileIndex).addClass("active");
+  }
+  $('#tab0').click(tabClick(0));
+  $('#tab1').click(tabClick(1));
+  $('#tab2').click(tabClick(2));
+  $('#tab3').click(tabClick(3));
 
   // Create header tabs
   function createHeader(number) {
     var part1 =
-      "<div class='card-header'> <ul class='nav nav-tabs card-header-tabs' id='mynav'>";
+      "<div class='card-header'> <ul class='nav nav-tabs card-header-tabs' id='mynav' role='tablist'>";
     var part2 = '';
     for (let i = 0; i < number; i++) {
       var str = '';
       var str = str.concat(
-        "<li class='nav-item'> <a class='nav-link'>File ",
+        "<li class='nav-item'> <a class='active nav-link tab' role='tab' aria-controls='file"+ i + "' aria-selected='true' id='tab"+ i +"'>File ",
         i + 1,
         ' </a> </li>',
       );
@@ -126,7 +152,7 @@
   }
   // Submit files
    $(document).ready(function() {
-	      $("#submit").click(function() {
+	      $("#subbt").click(function() {
 		  var fd = new FormData();
 		  fd.append('file', hashed_list);
 
@@ -135,7 +161,6 @@
 		      type: 'post',
 		      data: fd,
 		      contentType: false,
-                      crossDomain: true,
 		      processData: false,
 		      success: function(response){
 			  if(response != 0){
@@ -148,7 +173,6 @@
 		  });
 	      });
 	  });  
-
   // Process and hash file
   function hashHistory(res) {
     var history_string = res.split('\r\n');
@@ -174,7 +198,9 @@
             if (commands_list.indexOf(word) != -1) {
               hashed_string += word;
             } else {
-              hashed_string += sha256(word);//actual hashing yet to be implemented
+              var sha_hashed = sha256(word)
+              hashed_string += sha_hashed;
+              //actual hashing yet to be implemented
             }
         }
         if (j === line.length - 1) {
