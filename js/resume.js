@@ -4,14 +4,14 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-resume/blob/master/LICENSE)
  */
 
-(function($) {
+(function ($) {
   'use strict'; // Start of use strict
 
   // Smooth scrolling using jQuery easing
-  $('a.js-scroll-trigger[href*="#"]:not([href="#"])').click(function() {
+  $('a.js-scroll-trigger[href*="#"]:not([href="#"])').click(function () {
     if (
       location.pathname.replace(/^\//, '') ==
-        this.pathname.replace(/^\//, '') &&
+      this.pathname.replace(/^\//, '') &&
       location.hostname == this.hostname
     ) {
       var target = $(this.hash);
@@ -30,7 +30,7 @@
   });
 
   // Closes responsive menu when a scroll trigger link is clicked
-  $('.js-scroll-trigger').click(function() {
+  $('.js-scroll-trigger').click(function () {
     $('.navbar-collapse').collapse('hide');
   });
 
@@ -41,7 +41,7 @@
 
   // Import command list
   var commands_list = new Array();
-  $.get('commands_curated.json', function(commands) {
+  $.get('commands_curated.json', function (commands) {
     commands_list = commands;
   });
   // Handle hashing
@@ -49,36 +49,40 @@
   var hashed_list = [];
   var files_num = 0;
 
-  $('#hashbt').click(function() {
+  function prepareFile(fileObject) {
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        var res = e.target.result;
+        console.log(res)
+        clear_list.push(res);
+        hashHistory(res).then(function (hashed) {
+          resolve(hashed);
+        });
+      };
+      reader.readAsText(fileObject);
+    });
+  }
+
+  async function onAnonymizeClicked() {
     var files = $('#files').prop('files');
-    files_num = files.length;
-    function prepareFiles() {
-      for (let i = 0, f; (f = files[i]); i++) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-          var res = e.target.result;
-          console.log(res)
-          clear_list.push(res);
-          var hashed = hashHistory(res);
-          hashed_list.push(hashed);
-        };
-
-        reader.readAsText(f);
-      }
+    for (let i = 0, f; (f = files[i]); i++) {
+      const hashed = await prepareFile(f);
+      hashed_list.push(hashed);
     }
-    setTimeout(buildEverything, 2000);
-    function buildEverything() {
-      $('#subbt').prop('disabled', false);
-      createHeader(files_num);
-      createCards(0);
-createCards(1);
-   }
 
-   $('#hashbt').prop('disabled', true);
-   });
+    $('#hashbt').prop('disabled', true);
+    $('#subbt').prop('disabled', false);
+    createHeader(files_num);
+    createCards(0);
+    createCards(1);
+  }
 
-  
-  $('#tstbt').click(function() {
+  $('#hashbt').click(function () {
+    onAnonymizeClicked();
+  });
+
+  $('#tstbt').click(function () {
     console.log(hashed_list);
   });
 
@@ -105,20 +109,20 @@ createCards(1);
         </div>\
       </div>\
       </div>",
-        );
+    );
 
     //tabClick(0);
-  
-    
+
+
   }
-$(document).ready ( function () {
-    $(document).on ("click", "#mynav a", function (e) {
+  $(document).ready(function () {
+    $(document).on("click", "#mynav a", function (e) {
 
       e.preventDefault()
       alert('woof')
       $(this).tab('show')
     });
-});
+  });
   // Ugly handling of tabs
   function tabClick(fileIndex) {
     $('#original-text').text(clear_list[fileIndex]);
@@ -139,7 +143,7 @@ $(document).ready ( function () {
     for (let i = 0; i < number; i++) {
       var str = '';
       var str = str.concat(
-        "<li class='nav-item'> <a class='active nav-link tab' role='tab' aria-controls='file"+ i + "' aria-selected='true' id='tab"+ i +"'>File ",
+        "<li class='nav-item'> <a class='active nav-link tab' role='tab' aria-controls='file" + i + "' aria-selected='true' id='tab" + i + "'>File ",
         i + 1,
         ' </a> </li>',
       );
@@ -148,33 +152,33 @@ $(document).ready ( function () {
     var part3 = '</ul>';
     var joint = part1 + part2 + part3;
     $('#tryhere').html(joint);
-    
+
   }
   // Submit files
-   $(document).ready(function() {
-	      $("#subbt").click(function() {
-		  var fd = new FormData();
-		  fd.append('file', hashed_list);
+  $(document).ready(function () {
+    $("#subbt").click(function () {
+      var fd = new FormData();
+      fd.append('file', hashed_list);
 
-		  $.ajax({
-		      url: 'https://verdi.cs.ucl.ac.uk/receive-bash-data.php',
-		      type: 'post',
-		      data: fd,
-		      contentType: false,
-		      processData: false,
-		      success: function(response){
-			  if(response != 0){
-			     alert('file uploaded');
-			  }
-			  else{
-			      alert('file not uploaded');
-			  }
-		      },
-		  });
-	      });
-	  });  
+      $.ajax({
+        url: 'https://verdi.cs.ucl.ac.uk/receive-bash-data.php',
+        type: 'post',
+        data: fd,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+          if (response != 0) {
+            alert('file uploaded');
+          }
+          else {
+            alert('file not uploaded');
+          }
+        },
+      });
+    });
+  });
   // Process and hash file
-  function hashHistory(res) {
+  async function hashHistory(res) {
     var history_string = res.split('\r\n');
     var hashed_string = '';
 
@@ -188,6 +192,7 @@ $(document).ready ( function () {
           case String(word.match(/^b'\$2b\$.{56}('$)/)): //regex for bcrypt output to prevent hashing twice
             hashed_string += word;
             break;
+
           case String(word.match(/^-\w{1,4}$/)): //short flags (-a, -help)
             hashed_string += word;
             break;
@@ -198,7 +203,7 @@ $(document).ready ( function () {
             if (commands_list.indexOf(word) != -1) {
               hashed_string += word;
             } else {
-              var sha_hashed = sha256(word)
+              var sha_hashed = await sha256(word)
               hashed_string += sha_hashed;
               //actual hashing yet to be implemented
             }
@@ -216,7 +221,7 @@ $(document).ready ( function () {
   //SHA 256 hashing
   async function sha256(message) {
     // encode as UTF-8
-    const msgBuffer = new TextEncoder('utf-8').encode(message);                    
+    const msgBuffer = new TextEncoder('utf-8').encode(message);
 
     // hash the message
     const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
@@ -224,7 +229,7 @@ $(document).ready ( function () {
     // convert ArrayBuffer to Array
     const hashArray = Array.from(new Uint8Array(hashBuffer));
 
-    // convert bytes to hex string                  
+    // convert bytes to hex string
     const hashHex = hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
     return hashHex;
   }
