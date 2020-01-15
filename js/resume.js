@@ -44,19 +44,39 @@
   $.get('commands_curated.json', function (commands) {
     commands_list = commands;
   });
-  // Handle hashing
+
+  // Load files, processes them and displays plaintext and hashed histories
+  $('#hashbt').click(function () {
+    onAnonymizeClicked();
+    $('#subbt').prop('disabled', false);
+    $('#hashbt').prop('disabled', false);
+  });
+
   var clear_list = [];
   var hashed_list = [];
-  var files_num = 0;
+  var files_number = 0;
 
-  function prepareFile(fileObject) {
+  async function onAnonymizeClicked() {
+    $('#cards').remove();
+    $('#hashbt').prop('disabled', true);
+    var files = $('#files').prop('files');
+    var files_number= files.length
+    clear_list.length = hashed_list.length = 0; //clears the global arrays if user clicks anonymize again
+    for (let i = 0, f; (f = files[i]); i++) {
+      const hashed = await readFile(f);
+      hashed_list.push(hashed);
+    }
+    createHeader(files_number);
+    createCards(files_number);
+  }
+
+  function readFile(fileObject) {
     return new Promise(function (resolve, reject) {
       var reader = new FileReader();
       reader.onload = function (e) {
         var res = e.target.result;
-        console.log(res)
         clear_list.push(res);
-        hashHistory(res).then(function (hashed) {
+        hashHistoryFile(res).then(function (hashed) {
           resolve(hashed);
         });
       };
@@ -64,122 +84,9 @@
     });
   }
 
-  async function onAnonymizeClicked() {
-    var files = $('#files').prop('files');
-    for (let i = 0, f; (f = files[i]); i++) {
-      const hashed = await prepareFile(f);
-      hashed_list.push(hashed);
-    }
-
-    $('#hashbt').prop('disabled', true);
-    $('#subbt').prop('disabled', false);
-    createHeader(files_num);
-    createCards(0);
-    createCards(1);
-  }
-
-  $('#hashbt').click(function () {
-    onAnonymizeClicked();
-  });
-
-  $('#tstbt').click(function () {
-    console.log(hashed_list);
-  });
-
-  // Create cards
-  function createCards(index) {
-    $('#tryhere').after(
-      "<div class='tab-pane' id='tabpane" + index + "' role='tabpanel' aria-labeledby='tab" + index + "'>\
-      <div class='row overflow-auto vh-100'>\
-       <div class='col-sm-6'>\
-          <div class='card'>\
-            <div class='card-body'>\
-              <h5 class='card-title'>Original File</h5>\
-              <p class='card-text overflow-auto' id='original-text'>" + index + "</p>\
-            </div>\
-          </div>\
-        </div>\
-        <div class='col-sm-6'>\
-          <div class='card'>\
-            <div class='card-body'>\
-              <h5 class='card-title'>Anonymized File</h5>\
-              <p class='card-text overflow-auto' id='anon-text'>" + index + "</p>\
-            </div>\
-          </div>\
-        </div>\
-      </div>\
-      </div>",
-    );
-
-    //tabClick(0);
-
-
-  }
-  $(document).ready(function () {
-    $(document).on("click", "#mynav a", function (e) {
-
-      e.preventDefault()
-      alert('woof')
-      $(this).tab('show')
-    });
-  });
-  // Ugly handling of tabs
-  function tabClick(fileIndex) {
-    $('#original-text').text(clear_list[fileIndex]);
-    $('#anon-text').text(hashed_list[fileIndex]);
-    $('.tab').removeClass("active");
-    $('#tab' + fileIndex).addClass("active");
-  }
-  $('#tab0').click(tabClick(0));
-  $('#tab1').click(tabClick(1));
-  $('#tab2').click(tabClick(2));
-  $('#tab3').click(tabClick(3));
-
-  // Create header tabs
-  function createHeader(number) {
-    var part1 =
-      "<div class='card-header'> <ul class='nav nav-tabs card-header-tabs' id='mynav' role='tablist'>";
-    var part2 = '';
-    for (let i = 0; i < number; i++) {
-      var str = '';
-      var str = str.concat(
-        "<li class='nav-item'> <a class='active nav-link tab' role='tab' aria-controls='file" + i + "' aria-selected='true' id='tab" + i + "'>File ",
-        i + 1,
-        ' </a> </li>',
-      );
-      part2 += str;
-    }
-    var part3 = '</ul>';
-    var joint = part1 + part2 + part3;
-    $('#tryhere').html(joint);
-
-  }
-  // Submit files
-  $(document).ready(function () {
-    $("#subbt").click(function () {
-      var fd = new FormData();
-      fd.append('file', hashed_list);
-
-      $.ajax({
-        url: 'https://verdi.cs.ucl.ac.uk/receive-bash-data.php',
-        type: 'post',
-        data: fd,
-        contentType: false,
-        processData: false,
-        success: function (response) {
-          if (response != 0) {
-            alert('file uploaded');
-          }
-          else {
-            alert('file not uploaded');
-          }
-        },
-      });
-    });
-  });
   // Process and hash file
-  async function hashHistory(res) {
-    var history_string = res.split('\r\n');
+  async function hashHistoryFile(res) {
+    var history_string = res.split(/\r?\n/);
     var hashed_string = '';
 
     for (var i = 0; i < history_string.length; i++) {
@@ -187,12 +94,8 @@
       line = line.split(' ');
 
       for (var j = 0; j < line.length; j++) {
-        var word = line[j];
+        var word = line[j].toLowerCase();
         switch (word) {
-          case String(word.match(/^b'\$2b\$.{56}('$)/)): //regex for bcrypt output to prevent hashing twice
-            hashed_string += word;
-            break;
-
           case String(word.match(/^-\w{1,4}$/)): //short flags (-a, -help)
             hashed_string += word;
             break;
@@ -205,7 +108,6 @@
             } else {
               var sha_hashed = await sha256(word)
               hashed_string += sha_hashed;
-              //actual hashing yet to be implemented
             }
         }
         if (j === line.length - 1) {
@@ -233,5 +135,90 @@
     const hashHex = hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
     return hashHex;
   }
+
+  // Create header tabs
+  function createHeader(number) {
+    var part1 =
+      "<div class='card-header'> <ul class='nav nav-tabs card-header-tabs' id='mynav' role='tablist'>";
+    var part2 = '';
+    for (let i = 0; i < number; i++) {
+      var str = '';
+      var str = str.concat(
+        "<li class='nav-item'> <a class='nav-link' href='#tabpane" + i + "' data-toggle='tab' role='tab' aria-controls='file" + i + "' aria-selected='true' id='tab" + i + "'>File ",
+        i + 1,
+        ' </a> </li>',
+      );
+      part2 += str;
+    }
+    var part3 = '</ul></div>';
+    var joint = part1 + part2 + part3;
+    $('#tryhere').html(joint);
+    $('#tab0').addClass('active');
+  }
+
+  // Create cards
+  function createCards(files_number) {
+    var html_cards = "<div id='cards' class='tab-content h-100'>"; 
+    for (let i = 0; i < files_number; i++) {
+      html_cards += "\
+      <div class='tab-pane' id='tabpane" + i + "' role='tabpanel' aria-labeledby='tab" + i + "'>\
+      <div class='row overflow-auto vh-100'>\
+       <div class='col-sm-6 '>\
+          <div class='card'>\
+            <div class='card-body'>\
+              <h5 class='card-title'>Original File</h5>\
+              <p class='card-text log-col keep-lines overflow-auto' id='original-text'>" + clear_list[i] + "</p>\
+            </div>\
+          </div>\
+        </div>\
+        <div class='col-sm-6 mh-100'>\
+          <div class='card'>\
+            <div class='card-body'>\
+              <h5 class='card-title'>Anonymized File</h5>\
+              <p class='card-text log-col keep-lines overflow-auto' id='anon-text'>" + hashed_list[i] + "</p>\
+            </div>\
+          </div>\
+        </div>\
+      </div>\
+      </div>"
+    }
+    html_cards += "</div>";
+    $('#tryhere').after(html_cards);
+    $('#tabpane0').tab('show');
+    }
+
+  //Use tabs for switching between different files  
+  $(document).ready(function () {
+    $(document).on("click", ".nav-tabs a", function (e) {
+
+      e.preventDefault()
+      $(this).tab('show')
+    });
+  });
+  
+  // Submit files
+  $(document).ready(function () {
+    $("#subbt").click(function () {
+      var fd = new FormData();
+      fd.append('file', hashed_list);
+
+      $.ajax({
+        url: 'https://verdi.cs.ucl.ac.uk/receive-bash-data.php',
+        type: 'post',
+        data: fd,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+          if (response != 0) {
+            alert('file uploaded');
+          }
+          else {
+            alert('file not uploaded');
+          }
+        },
+      });
+    });
+  });
+
 
 })(jQuery); // End of use strict

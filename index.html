@@ -9,7 +9,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
 
-    <title>Dissertation page</title>
+    <title>Profiling Users With .bash_history</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
@@ -113,14 +113,14 @@
           <div class="subheading mb-5">How it works</div>
           <p class="lead mb-5">
             Bash logs can contain sensitive information such as filenames or
-            passwords. To protect your privacy, all files are processed using an
-            anonymizing script. In short, it goes through the file word by word
+            passwords. To protect your privacy, all files are processed using an anonymizing script. 
+            In short, it goes through the file word by word
             and only keeps the string if it is:
           </p>
           <ul>
             <li>
-              on a <a href="#">list</a> of ~250 common, mostly built-in commands
-              <code>ls sudo ifconfig vim</code>
+              on a <a href="commands_curated.json">list</a> of ~250 common, mostly built-in commands or operators
+              <code>ls sudo ifconfig vim | &gt</code>
             </li>
             <li>
               recognized as a short option/flag – a hyphen followed by 1 to 4
@@ -129,18 +129,18 @@
             <li>
               regexxed as a long option/flag – double hyphen followed by
               alphanumeric strings, which are divided by another hyphen
-              <code>–follow-symlinks –help --version</code>
+              <code>--follow-symlinks --help --version</code>
             </li>
           </ul>
           <p class="lead mb-5">
             Everything else gets hashed. This way I can still see some patterns
-            but know very little about you.
+            while knowing very little about you.
           </p>
           <p class="lead mb-5">
             In the next step, you can download the 30-line python script and run
             it locally before uploading the anonymized file. If you a) trust me
             b) can’t be bothered c) forget to hash your file, don’t worry – all
-            files are processed again using the same script (this time in JS)
+            files are processed using the same script (this time in JS)
             before they are sent over.
           </p>
         </div>
@@ -160,32 +160,30 @@
             upload logs of other users (!), upload each of them separately.
           </p>
           <p class="lead mb-5">
-            This website is hosted on <a href="#">github pages</a>, so you can
+            This website is hosted on <a href="https://github.com/mckouny/mckouny.github.io">github pages</a>, so you can
             inspect the source code. Once you upload the file, it will be
             anonymized in your browser. You will see the result and then decide
             whether you want to submit it or not.
           </p>
           <p class="lead mb-5">
-            Alternatively, I invite you to
+	    For added security, 
             <a href="hashing_script.py">download the anonymizing script</a> in
             Python and upload already anonymized files.
           </p>
 
           <div class="subheading">1. Choose the files</div>
           <input type="file" id="files" name="files[]" multiple />
-          <p>These will not be uploaded yet.</p>
+          <p>These will not be submitted yet.</p>
 
           <div class="subheading">2. Anonymize and inspect</div>
           
-          <button class="btn-primary btn" type="button" id="tstbt">
-            Tstbtn
-          </button>
           <button class="btn-primary btn" type="button" id="hashbt">
             Anonymize
           </button>
           <div id="tryhere"></div>
 
-          <div class="subheading">3. Review, give consent and submit</div>
+
+          <div class="subheading mt-3">3. Consent and submit</div>
           <div>
             <input
               type="checkbox"
@@ -195,7 +193,17 @@
             />
             <label for="legalCheck">Consent blah blah</label>
           </div>
-          <button type="submit" id="subbt" disabled>Submit</button>
+          <div>
+            <input
+              type="checkbox"
+              id="userCheckbox"
+              name="userCheckbox"
+              value="userCheckbox"
+            />
+            <label for="legalCheck">All files come from the same user. (Please submit files from other users separately). </label>
+          </div>
+
+          <button class="btn-primary btn" type="submit" id="subbt" disabled>Submit</button>
           <output id="list"></output>
         </div>
       </section>

@@ -73,7 +73,7 @@ function modules() {
 // CSS task
 function css() {
   return gulp
-    .src("./scss/**/*.scss")
+    .src("./scss/**/*.scss", "./*.scss")
     .pipe(plumber())
     .pipe(sass({
       outputStyle: "expanded",
@@ -100,18 +100,16 @@ function css() {
 function js() {
   return gulp
     .src([
-      './js/*.js',
-      '!./js/*.min.js'
+      './js/*.js'
     ])
-    //.pipe(uglify())
-//    .pipe(gulp.dest('./js'))
+    .pipe(gulp.dest('./js'))
     .pipe(browsersync.stream());
 }
 
 // Watch files
 function watchFiles() {
   gulp.watch("./scss/**/*", css);
-  gulp.watch(["./js/**/*", "!./js/**/*.min.js"], js);
+  gulp.watch(["./js/**/*"], js);
   gulp.watch("./**/*.html", browserSyncReload);
 }
 
