@@ -45,6 +45,11 @@
     commands_list = commands;
   });
 
+  //Display alert on file upload
+  $(document).on('change','#files' , function(){ 
+    document.getElementById('filealert').style.display = "block";
+  });
+
   // Load files, processes them and displays plaintext and hashed histories
   $('#hashbt').click(function () {
     onAnonymizeClicked();
@@ -210,10 +215,10 @@
         processData: false,
         success: function (response) {
           if (response != 0) {
-            alert('file uploaded');
+            $('#subsuccess').style.display = "block";
           }
           else {
-            alert('file not uploaded');
+            alert("A problem has occured while submitting the files. Please reload the page and try again.");
           }
         },
       });

@@ -77,15 +77,16 @@
         id="about"
       >
         <div class="w-100">
-          <h1 class="mb-0">
+          <h1 class="mb-3">
             Profiling users with
             <span class="text-primary">.bash_history </span>
           </h1>
           <div class="subheading mb-5">
-            Can we be identified using our bash behaviour?
+            Can we be identified using by our bash behaviour?
           </div>
           <p class="lead mb-0">
-            Cyber attribution is hard. By analyzing the patterns in attacker's
+            Cyber attribution is hard. And most methods lead to the computer, not the person.
+            By analyzing the patterns in attacker's
             commands, we may be able to link different attacks to him, or at
             least to someone who had the same training.
           </p>
@@ -154,7 +155,7 @@
             directory (~/.bash_history). As the default size is mere 500 lines,
             please try to upload multiple files (different machines, timeframes,
             as long as it’s all you). If you are by any chance authorized to
-            upload logs of other users (!), upload each of them separately.
+            upload logs of other users (!), submit each of them separately.
           </p>
           <p class="lead mb-5">
             This website is hosted on <a href="https://github.com/mckouny/mckouny.github.io">github pages</a>, so you can
@@ -165,12 +166,16 @@
           <p class="lead mb-5">
 	    For added security, 
             <a href="hashing_script.py">download the anonymizing script</a> in
-            Python and upload already anonymized files.
+            Python and upload the already anonymized files.
           </p>
 
           <div class="subheading">1. Choose the files</div>
           <input type="file" id="files" name="files[]" multiple />
           <p>These will not be submitted yet.</p>
+          <div class="alert alert-warning" id="filealert" role="alert" style="display: none">
+            If you have multiple files from one user, <b>make sure you submit them in one go.</b> </br>
+            Equally, submitting files from different users at once will pollute the data.
+          To sustain privacy, I have no other way of knowing that the files are linked. When in doubt, please write me an email.</div>
 
           <div class="subheading">2. Anonymize and inspect</div>
           
@@ -190,18 +195,14 @@
             />
             <label for="legalCheck">Consent blah blah</label>
           </div>
-          <div>
-            <input
-              type="checkbox"
-              id="userCheckbox"
-              name="userCheckbox"
-              value="userCheckbox"
-            />
-            <label for="legalCheck">All files come from the same user. (Please submit files from other users separately). </label>
-          </div>
 
           <button class="btn-primary btn" type="submit" id="subbt" disabled>Submit</button>
           <output id="list"></output>
+
+          <div class="alert alert-success" id="subsuccess" role="alert" style="display: none">
+            <strong> Thank you! Your file(s) have been succesfully updated.</strong>
+          </div>
+
         </div>
       </section>
 
@@ -219,7 +220,7 @@
 
           <p class="lead mb-5">
             If you have any questions or comments, please do not hesitate to
-            contact me or my supervisor. Thanks again for your help!
+            contact me at antonin.kanat.17@ucl.ac.uk or my supervisor Ingolf Becker (i.becker@ucl.ac.uk). Thanks again for your help!
           </p>
         </div>
       </section>

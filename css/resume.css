@@ -178,3 +178,7 @@ a:hover, a:focus, a:active {
 .log-col {
   white-space: pre;
 }
+
+code {
+  color: #2f4f4f;
+}
