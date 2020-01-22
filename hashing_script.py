@@ -16,21 +16,21 @@ double_dash_re = re.compile(r"^-(-\w{1,10}){1,4}$")
 
 for line in sys.stdin:
     line = line.split()
-    processed_line = ""
+    processed_words = []
 
     for word in line:
         word = word.lower()
         if word in known_commands: #finding commands from list + operators
-            processed_line += (word + " ")
+            processed_words.append(word)
 
         elif single_dash_re.search(word): #matching single dash flags (max 4 characters)
-            processed_line += (word + " ")
+            processed_words.append(word)
 
         elif double_dash_re.search(word): #matching double dash flags
-            processed_line += (word + " ")
+            processed_words.append(word)
 
         else:
             hashed = hashlib.pbkdf2_hmac('sha256', word.encode('utf-8'), salt, 1000, dklen=32)
-            processed_line += (str(hashed) + " ")
+            processed_words.append(str(hashed))
 
-    print(processed_line)
+    print(' '.join(processed_words))
