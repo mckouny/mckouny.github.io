@@ -190,7 +190,7 @@
             </div>\
           </div>\
         </div>\
-        <div class='col-sm-6 mh-100'>\
+        <div class='col-sm-6 '>\
           <div class='card'>\
             <div class='card-body'>\
               <h5 class='card-title'>Anonymized File</h5>\
@@ -229,6 +229,7 @@
         processData: false,
         success: function () {
           $('#subsuccess').css("display", "block");
+          $('#subbt').prop("disabled", "true");
         },
         error: function() {
           alert('An error occured while submitting the files, please try again.')

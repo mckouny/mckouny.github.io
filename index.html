@@ -84,7 +84,7 @@
             Profiling users with
             <span class="text-primary">.bash_history </span>
           </h1>
-          <span id="typed" style='white-space: pre-wrap'></span>
+          <code>$ <span id="typed" style='white-space: pre-wrap'></span></code>
           <div class="subheading mt-5 mb-5">
             Can we be identified using by our bash behaviour?
           </div>
@@ -208,7 +208,7 @@
           <output id="list"></output>
 
           <div class="alert alert-success" id="subsuccess" role="alert" style="display: none">
-          Thank you! Your file(s) have been succesfully updated.
+          Thank you! Your file(s) have been succesfully uploaded.
           </div>
 
         </div>
@@ -234,11 +234,13 @@
       </section>
 
       <script> var options = {
-	strings: ['ls -alt', 'ls -l','ls -la'],
-	typeSpeed: 0,
-	backSpeed: 0,
-	smartBackspace: true, // this is a default
-	loop: true
+	strings: ['ls -alt', 'ls -l','ls -la', 'pwd', 'cd ..', 'cd /', 'cd'],
+	typeSpeed: 40,
+	backSpeed: 40,
+        backDelay: 500,
+	smartBackspace: false, // this is a default
+	loop: true,
+        shuffle: true
 	};
 	var typed = new Typed('#typed', options);
       </script>
