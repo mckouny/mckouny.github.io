@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Usage: $:python hashing_script.py /path/to/bash_history > /path/to/output_file
 Antonin Kanat antonin.kanat.17@ucl.ac.uk
