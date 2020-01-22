@@ -3,6 +3,7 @@ Usage: $:python hashing_script.py /path/to/bash_history > /path/to/output_file
 Antonin Kanat antonin.kanat.17@ucl.ac.uk
 """
 
+import base64
 import re
 import hashlib
 from os import urandom
@@ -31,6 +32,6 @@ for line in sys.stdin:
 
         else:
             hashed = hashlib.pbkdf2_hmac('sha256', word.encode('utf-8'), salt, 1000, dklen=32)
-            processed_words.append(str(hashed))
+            processed_words.append(base64.b64encode(hashed).decode('utf-8'))
 
     print(' '.join(processed_words))
