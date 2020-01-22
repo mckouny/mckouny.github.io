@@ -4,6 +4,7 @@ Usage: $:python hashing_script.py /path/to/bash_history > /path/to/output_file
 Antonin Kanat antonin.kanat.17@ucl.ac.uk
 """
 
+import shlex
 import base64
 import re
 import hashlib
@@ -17,7 +18,7 @@ single_dash_re = re.compile(r"^-\w{1,4}$")
 double_dash_re = re.compile(r"^-(-\w{1,10}){1,4}$")
 
 for line in sys.stdin:
-    line = line.split()
+    line = shlex.split(line)
     processed_words = []
 
     for word in line:
