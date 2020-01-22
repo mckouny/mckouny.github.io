@@ -50,22 +50,36 @@
     document.getElementById('filealert').style.display = "block";
   });
 
+  //Create a new Browse button if there isn't an available one
+  $(document).on('change','.fileinput' , function(){ 
+    var last = $("#last-created");
+    if (((last.prop("files").length) != 0) || last.hasClass("default")){
+      last.attr("id", "");
+      $('#filesMold').clone().attr("id", "last-created").removeAttr("hidden").insertAfter(last); 
+    }
+  });
+
   // Load files, processes them and displays plaintext and hashed histories
   $('#hashbt').click(function () {
     onAnonymizeClicked();
-    $('#subbt').prop('disabled', false);
     $('#hashbt').prop('disabled', false);
   });
 
   var clear_list = [];
   var hashed_list = [];
   var files_number = 0;
+  var files = [];
 
   async function onAnonymizeClicked() {
     $('#cards').remove();
     $('#hashbt').prop('disabled', true);
-    var files = $('#files').prop('files');
-    var files_number= files.length
+    $('.fileinput').each(function(){
+      var filelst = $(this).prop('files');
+      for (var i = 0; i < filelst.length; i++) {
+        files.push(filelst[i]);
+      }
+    })
+    var files_number = files.length
     clear_list.length = hashed_list.length = 0; //clears the global arrays if user clicks anonymize again
     for (let i = 0, f; (f = files[i]); i++) {
       const hashed = await readFile(f);
@@ -200,7 +214,7 @@
       $(this).tab('show')
     });
   });
-  
+
   // Submit files
   $(document).ready(function () {
     $("#subbt").click(function () {
@@ -213,14 +227,12 @@
         data: fd,
         contentType: false,
         processData: false,
-        success: function (response) {
-          if (response != 0) {
-            $('#subsuccess').style.display = "block";
-          }
-          else {
-            alert("A problem has occured while submitting the files. Please reload the page and try again.");
-          }
+        success: function () {
+          $('#subsuccess').css("display", "block");
         },
+        error: function() {
+          alert('An error occured while submitting the files, please try again.')
+        }
       });
     });
   });

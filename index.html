@@ -121,17 +121,17 @@
           </p>
           <ul>
             <li>
-              on a <a href="commands_curated.json">list</a> of ~250 common, mostly built-in commands or operators
-              <code>ls sudo ifconfig vim | &gt</code>
+              on a <a href="commands_curated.json">list</a> of ~250 common, mostly built-in commands or operators, such as:
+              <code>ls, sudo, ifconfig, vim, |, &gt</code>
             </li>
             <li>
               recognized as a short option/flag – a hyphen followed by 1 to 4
-              alphanumeric characters <code>-p -alt -rf</code>
+              alphanumeric characters, for example <code>-p, -alt, -rf</code>
             </li>
             <li>
-              regexxed as a long option/flag – double hyphen followed by
-              alphanumeric strings, which are divided by another hyphen
-              <code>--follow-symlinks --help --version</code>
+              regexed as a long option/flag – double hyphen followed by
+              alphanumeric strings, which are separated by another hyphen. That keeps
+              <code>--follow-symlinks, --help, --version</code>, but not <code>--password=pass, --time=WORD</code>
             </li>
           </ul>
           <p class="lead mb-5">
@@ -174,7 +174,10 @@
           </p>
 
           <div class="subheading">1. Choose the files</div>
-          <input type="file" id="files" name="files[]" multiple />
+          <input type="file" id="files" class="fileinput" name="files" multiple/>
+          <input hidden type="file" id="filesMold" class="fileinput" name="files" multiple/>
+          <input hidden type="file" id="last-created" class="fileinput default last-created" name="files" multiple/>
+
           <p>These will not be submitted yet.</p>
           <div class="alert alert-warning" id="filealert" role="alert" style="display: none">
             If you have multiple files from one user, <b>make sure you submit them in one go.</b> </br>
@@ -193,9 +196,10 @@
           <div>
             <input
               type="checkbox"
-              id="legalCheck"
+              id="consent"
               name="consent"
               value="consent"
+              onchange="document.getElementById('subbt').disabled = !this.checked;"
             />
             <label for="legalCheck">Consent blah blah</label>
           </div>
@@ -204,7 +208,7 @@
           <output id="list"></output>
 
           <div class="alert alert-success" id="subsuccess" role="alert" style="display: none">
-            <strong> Thank you! Your file(s) have been succesfully updated.</strong>
+          Thank you! Your file(s) have been succesfully updated.
           </div>
 
         </div>
