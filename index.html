@@ -86,7 +86,7 @@
           </h1>
           <code>$ <span id="typed" style='white-space: pre-wrap'></span></code>
           <div class="subheading mt-5 mb-5">
-            Can we be identified using by our bash behaviour?
+            Can we be identified by our bash behaviour?
           </div>
           <p class="lead mb-0">
             Cyber attribution is hard. And most methods lead to the computer, not the person.
@@ -98,8 +98,8 @@
           <p class="lead mb-3">
             For my dissertation, I collect (anonymized)
             <code>.bash_history</code> files from many users and use some ML™ to
-            link them together. For that, I need a lot of data and I would
-            appreciate if you shared your history with me.
+            link them together. For that, I need a lot of data and would
+            appreciate if you shared your history with me. I'll take zsh as well.
           </p>
           <p class="lead mb-5">
             To see how I handle your data securely and anonymously, read on.
@@ -113,9 +113,10 @@
       >
         <div class="w-100">
           <div class="subheading mb-5">How it works</div>
-          <p class="lead mb-5">
+          <p class="lead mb-22">
             Bash logs can contain sensitive information such as filenames or
-            passwords. To protect your privacy, all files are processed using an anonymizing script. 
+            passwords. To protect your privacy, all files are processed using an anonymizing script. This website is hosted on <a href="https://github.com/mckouny/mckouny.github.io">github pages</a>, so you can
+            inspect the source code.</br> 
             In short, it goes through the file word by word
             and only keeps the string if it is:
           </p>
@@ -134,16 +135,16 @@
               <code>--follow-symlinks, --help, --version</code>, but not <code>--password=pass, --time=WORD</code>
             </li>
           </ul>
-          <p class="lead mb-5">
+          <p class="lead mb-2">
             Everything else gets hashed. This way I can still see some patterns
-            while knowing very little about you.
+            while knowing very little about you (I don't store any personal data such as IP).
           </p>
           <p class="lead mb-5">
-            In the next step, you can download the 30-line python script and run
-            it locally before uploading the anonymized file. If you a) trust me
-            b) can’t be bothered c) forget to hash your file, don’t worry – all
-            files are processed using the same script (this time in JS)
-            before they are sent over.
+            As the default size of bash history is mere 500 lines,
+            please try to upload multiple files (different machines, timeframes,
+            as long as it’s all you). If you are by any chance authorized to
+            upload logs of other users (!), submit each of them separately, in a different session.
+            In the next step, you'll learn how to submit your files.
           </p>
         </div>
       </section>
@@ -154,23 +155,11 @@
       >
         <div class="w-100">
           <div class="subheading mb-5">Submit your files</div>
-          <p class="lead mb-5">
-            On most UNIX systems, the .bash_history file is in the home
-            directory (~/.bash_history). As the default size is mere 500 lines,
-            please try to upload multiple files (different machines, timeframes,
-            as long as it’s all you). If you are by any chance authorized to
-            upload logs of other users (!), submit each of them separately.
-          </p>
-          <p class="lead mb-5">
-            This website is hosted on <a href="https://github.com/mckouny/mckouny.github.io">github pages</a>, so you can
-            inspect the source code. Once you upload the file, it will be
-            anonymized in your browser. You will see the result and then decide
-            whether you want to submit it or not.
-          </p>
-          <p class="lead mb-5">
-	    For added security, 
-            <a href="hashing_script.py">download the anonymizing script</a> in
-            Python and upload the already anonymized files.
+          <p class="lead mb-2">
+          There are two ways of submitting your history, the first being easier and the second more robust and private. If you use other shell than bash, adjust accordingly.</p>
+          <p class="lead mb-2"><b>Method 1: upload .bash_history files</b> On most UNIX systems, these are located in the home
+          directory (<code>~/.bash_history</code>). After uploading, they'll get anonymized in your browser using js, you can inspect the result and decide whether to submit them.</p>
+          <p class="lead mb-5"><b>Method 2: anonymize on your computer</b> If you are more careful, <a href="hashing_script.py">download the anonymizing python script</a> to process the history on your computer and upload already anonymized files.
           </p>
 
           <div class="subheading">1. Choose the files</div>
@@ -194,6 +183,8 @@
 
           <div class="subheading mt-3">3. Consent and submit</div>
           <div>
+            <p>If you have any additional questions, email me at antonin.kanat.17@ucl.ac.uk. To raise a complaint, please contact Dr Ingolf Becker (i.becker@ucl.ac.uk). If you feel your complaint has not been handled to your satisfaction, you can contact the Chair of the Security and Crime Science Research Ethics Committee under scs.ethics@ucl.ac.uk. </br>
+           You can withdraw from the study at any time by emailing antonin.kanat.17@ucl.ac.uk.</p>
             <input
               type="checkbox"
               id="consent"
@@ -201,7 +192,7 @@
               value="consent"
               onchange="document.getElementById('subbt').disabled = !this.checked;"
             />
-            <label for="legalCheck">Consent blah blah</label>
+            <label for="legalCheck">I confirm that I have read and understood the information in previous sections about the research and my participation.</label>
           </div>
 
           <button class="btn-primary btn" type="submit" id="subbt" disabled>Submit</button>
@@ -234,7 +225,7 @@
       </section>
 
       <script> var options = {
-	strings: ['ls -alt', 'ls -l','ls -la', 'pwd', 'cd ..', 'cd /', 'cd'],
+	strings: ['ls -alt', 'ls -l','ls -la', 'pwd', 'cd ..', 'cd ../', 'cd', 'pwd', 'uname -a', 'cat dissertation.txt', 'exit', 'clear', 'ls -f', 'cd /', 'hack fbi cia nsa', 'rm -rf /', 'sl -al'],
 	typeSpeed: 40,
 	backSpeed: 40,
         backDelay: 500,

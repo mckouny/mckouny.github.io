@@ -19,7 +19,6 @@ hashes for the same input. This would significantly reduce  my ability to observ
 patters.
 """
 
-import shlex
 import base64
 import re
 import hashlib
@@ -35,7 +34,7 @@ single_dash_re = re.compile(r"^-\w{1,4}$")
 double_dash_re = re.compile(r"^-(-\w{1,10}){1,4}$")
 
 for line in sys.stdin:
-    line = shlex.split(line)
+    line = line.split(' ')
     processed_words = []
     
     # the 'history' command outputs line numbers before the commands
