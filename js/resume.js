@@ -62,17 +62,23 @@
   // Load files, processes them and displays plaintext and hashed histories
   $('#hashbt').click(function () {
     onAnonymizeClicked();
+    $('#wait').removeAttr("hidden");
     $('#hashbt').prop('disabled', false);
+
   });
 
   var clear_list = [];
   var hashed_list = [];
   var files_number = 0;
   var files = [];
+  var salt = 0; // new salt gets generated each time the "Anonymize button" is clicked
 
   async function onAnonymizeClicked() {
-    $('#cards').remove();
-    $('#hashbt').prop('disabled', true);
+    $('#tryhere, #cards').empty();
+    $('#hashbt').hide()
+    $('#waitbt').show()
+    salt = crypto.getRandomValues(new Uint8Array(16));
+    files.length = 0;
     $('.fileinput').each(function(){
       var filelst = $(this).prop('files');
       for (var i = 0; i < filelst.length; i++) {
@@ -80,13 +86,15 @@
       }
     })
     var files_number = files.length
-    clear_list.length = hashed_list.length = 0; //clears the global arrays if user clicks anonymize again
+    clear_list.length = hashed_list.length = 0; // clears the global arrays if user clicks anonymize again
     for (let i = 0, f; (f = files[i]); i++) {
       const hashed = await readFile(f);
       hashed_list.push(hashed);
     }
     createHeader(files_number);
     createCards(files_number);
+    $('#waitbt').hide();
+    $('#hashbt').show();
   }
 
   function readFile(fileObject) {
@@ -111,9 +119,14 @@
     for (var i = 0; i < history_string.length; i++) {
       var line = history_string[i];
       line = line.split(' ');
-
       for (var j = 0; j < line.length; j++) {
         var word = line[j].toLowerCase();
+
+        if (word === "" && line.length === 1){
+          hashed_string += '\n';
+          continue;
+        }
+        
         switch (word) {
           case String(word.match(/^-\w{1,4}$/)): //short flags (-a, -help)
             hashed_string += word;
@@ -125,6 +138,7 @@
             if (commands_list.indexOf(word) != -1) {
               hashed_string += word;
             } else {
+              //var sha_hashed = await sha256(word)
               var sha_hashed = await sha256(word)
               hashed_string += sha_hashed;
             }
@@ -139,18 +153,36 @@
     return hashed_string;
   }
 
-  //SHA 256 hashing
-  async function sha256(message) {
-    // encode as UTF-8
-    const msgBuffer = new TextEncoder('utf-8').encode(message);
+  // Hash the word using SHA256
+  async function sha256(word) {
+    // Encode as UTF8
+    var msgBuffer = new TextEncoder('utf-8').encode(word);
+    var hashed = await window.crypto.subtle.importKey(
+      'raw', 
+      msgBuffer, 
+      {name: 'PBKDF2'}, 
+      false, 
+      ['deriveBits', 'deriveKey']
+    ).then(function(key) {
+      return window.crypto.subtle.deriveKey(
+	{ "name": 'PBKDF2',
+	  "salt": salt,
+	  "iterations": 1000,
+	  "hash": 'SHA-256'
+	},
+	key,
+	{ "name": 'AES-CBC', "length": 256 },
+	true,
+	["encrypt"]
+      )
+    }).then(function (webKey) {
+      return crypto.subtle.exportKey("raw", webKey);
 
-    // hash the message
-    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-
-    // convert to base64
-    let base64String = btoa(String.fromCharCode(...new Uint8Array(hashBuffer)));
-    return base64String;
-  }
+    }).then(function (buffer) {
+	 return btoa(String.fromCharCode(...new Uint8Array(buffer)));
+    });
+    return hashed 
+    }
 
   // Create header tabs
   function createHeader(number) {
@@ -216,8 +248,9 @@
   $(document).ready(function () {
     $("#subbt").click(function () {
       var fd = new FormData();
-      fd.append('file', hashed_list);
-
+      for (let i = 0; i < hashed_list.length; i++) {
+        fd.append("file" + i, hashed_list[i]);
+      }
       $.ajax({
         url: 'https://verdi.cs.ucl.ac.uk/receive-bash-data.php',
         type: 'post',
