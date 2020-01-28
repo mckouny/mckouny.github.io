@@ -119,14 +119,14 @@
 
     for (var i = 0; i < history_string.length; i++) {
       var line = history_string[i];
-      line = line.split(' ');
+      line = line.trimRight(/\r?\n/).split(" ");
+      if (line[0] === "" && line.length === 1){
+        hashed_string += '\n';
+        continue;
+      }
       for (var j = 0; j < line.length; j++) {
         var word = line[j].toLowerCase();
 
-        if (word === "" && line.length === 1){
-          hashed_string += '\n';
-          continue;
-        }
         
         switch (word) {
           case String(word.match(/^-\w{1,4}$/)): //short flags (-a, -help)
@@ -149,6 +149,7 @@
           hashed_string += ' ';
         }
       }
+      
     }
     return hashed_string;
   }
