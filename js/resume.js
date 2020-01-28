@@ -77,8 +77,9 @@
     $('#tryhere, #cards').empty();
     $('#hashbt').hide()
     $('#waitbt').show()
-    salt = crypto.getRandomValues(new Uint8Array(16));
     files.length = 0;
+    salt = Array.from(new Uint8Array(crypto.getRandomValues(new Uint8Array(16)))).map(byte => String.fromCharCode(byte)).join('');
+  
     $('.fileinput').each(function(){
       var filelst = $(this).prop('files');
       for (var i = 0; i < filelst.length; i++) {
@@ -138,8 +139,7 @@
             if (commands_list.indexOf(word) != -1) {
               hashed_string += word;
             } else {
-              //var sha_hashed = await sha256(word)
-              var sha_hashed = await sha256(word)
+              var sha_hashed = await sha256(salt + word)
               hashed_string += sha_hashed;
             }
         }
@@ -152,37 +152,16 @@
     }
     return hashed_string;
   }
-
   // Hash the word using SHA256
-  async function sha256(word) {
-    // Encode as UTF8
-    var msgBuffer = new TextEncoder('utf-8').encode(word);
-    var hashed = await window.crypto.subtle.importKey(
-      'raw', 
-      msgBuffer, 
-      {name: 'PBKDF2'}, 
-      false, 
-      ['deriveBits', 'deriveKey']
-    ).then(function(key) {
-      return window.crypto.subtle.deriveKey(
-	{ "name": 'PBKDF2',
-	  "salt": salt,
-	  "iterations": 1000,
-	  "hash": 'SHA-256'
-	},
-	key,
-	{ "name": 'AES-CBC', "length": 256 },
-	true,
-	["encrypt"]
-      )
-    }).then(function (webKey) {
-      return crypto.subtle.exportKey("raw", webKey);
-
-    }).then(function (buffer) {
-	 return btoa(String.fromCharCode(...new Uint8Array(buffer)));
-    });
-    return hashed 
-    }
+  async function sha256(saltedWord) {
+    // encode as UTF-8
+    const msgBuffer = new TextEncoder('utf-8').encode(saltedWord);
+    // hash the message
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    // convert to base64
+    let base64String = btoa(String.fromCharCode(...new Uint8Array(hashBuffer)));
+    return base64String;
+  }
 
   // Create header tabs
   function createHeader(number) {
