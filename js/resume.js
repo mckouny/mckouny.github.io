@@ -45,6 +45,12 @@
     commands_list = commands;
   });
 
+  // Reset uploaded files and checkbox on page refresh
+  $(window).on('beforeunload', function(){
+    $(":input").val('');
+    $("#consent").prop("checked", false);
+  });
+
   //Display alert on file upload
   $(document).on('change','#files' , function(){ 
     document.getElementById('filealert').style.display = "block";
