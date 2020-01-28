@@ -49,6 +49,7 @@
   $(window).on('beforeunload', function(){
     $(":input").val('');
     $("#consent").prop("checked", false);
+    $("#subbt").attr("disabled", true);
   });
 
   //Display alert on file upload
