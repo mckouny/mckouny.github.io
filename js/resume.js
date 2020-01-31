@@ -126,22 +126,24 @@
 
     for (var i = 0; i < history_string.length; i++) {
       var line = history_string[i];
-      line = line.trimRight(/\r?\n/).split(" ");
+      line = line.split(" ");
       if (line[0] === "" && line.length === 1){
-        hashed_string += '\n';
+        hashed_string += '\n'; // preserves blank lines in the file
         continue;
       }
       for (var j = 0; j < line.length; j++) {
         var word = line[j].toLowerCase();
 
-        
         switch (word) {
-          case String(word.match(/^-\w{1,4}$/)): //short flags (-a, -help)
+          case String(word.match(/^-\w{1,4}$/)): // short flags (-a, -help)
             hashed_string += word;
             break;
-          case String(word.match(/^-(-\w{1,10}){1,4}$/)): //long flag (--version, --read-as)s
+          case String(word.match(/^-(-\w{1,10}){1,4}$/)): // long flag (--version, --read-as)s
             hashed_string += word;
             break;
+          case word === "": // preserves multiple and trailing spaces
+            hashed_string += " ";
+            break
           default:
             if (commands_list.indexOf(word) != -1) {
               hashed_string += word;
