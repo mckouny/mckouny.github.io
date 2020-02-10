@@ -7,7 +7,8 @@ Usage options:
 1)  Pipe your bash/zsh history into the script and redirect the output to a file.
     $: history | python hashing_script.py > /output/file
     
-2)  Using .bash_history files (usually located in your home folder)
+2)  DO NOT USE FOR ZSH AND OTHER FLAVOURS - they have a diferent structure
+    Using .bash_history files (usually located in your home folder)
     $: cat file1 (file2) | python hashing_script.py > /output/file
 
 Please contact me, Antonin Kanat (antonin.kanat.17@ucl.ac.uk) with any queries.
