@@ -50,6 +50,7 @@
     $(":input").val('');
     $("#consent").prop("checked", false);
     $("#subbt").attr("disabled", true);
+    $("#activesubbt").attr("disabled", true);
   });
 
   //Display alert on file upload
@@ -71,6 +72,7 @@
     onAnonymizeClicked();
     $('#wait').removeAttr("hidden");
     $('#hashbt').prop('disabled', false);
+    $('#subbt').attr('id','activesubbt');
 
   });
 
